@@ -48,8 +48,16 @@
 </head>
 <body>
     <div id="root"></div>
-<script type="module">
-    // 여기에 index.tsx 파일 안에 들어있는 모든 코드를 복사해서 붙여넣으세요.
-</script>
+    <script type="module">
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+        import App from './App'; // 이 부분은 실제 App.tsx 내용으로 대체되어야 할 수도 있습니다.
+
+        const rootElement = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(
+          React.createElement(App)
+        );
+    </script>
 </body>
 </html>
