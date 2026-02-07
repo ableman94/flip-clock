@@ -5,13 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FlipClock Pro</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="FlipClock">
-    <!-- Chrome and Android support -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#000000">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
@@ -24,40 +17,62 @@
             height: 100vh;
             width: 100%;
             position: fixed;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        .flip-card {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            font-size: 25vw;
+            line-height: 1;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .top, .bottom {
+            height: 0.5em;
+            line-height: 1;
+            padding: 0.2em 0.1em;
+            overflow: hidden;
+            background: #1a1a1a;
+            border-radius: 10px;
+            text-align: center;
+            width: 1.2em;
         }
+        .top { background: #222; border-bottom: 1px solid rgba(0,0,0,0.5); border-radius: 10px 10px 0 0; }
+        .bottom { display: flex; align-items: flex-end; justify-content: center; border-radius: 0 0 10px 10px; }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4"
-  }
-}
-</script>
-<link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div id="root"></div>
-    <script type="module">
-        import React from 'react';
-        import ReactDOM from 'react-dom/client';
-        import App from './App'; // 이 부분은 실제 App.tsx 내용으로 대체되어야 할 수도 있습니다.
+    <div id="root" class="h-full w-full flex items-center justify-center">
+        <div class="flex gap-4">
+            <div id="hour" class="flip-card">
+                <div class="top">00</div>
+                <div class="bottom">00</div>
+            </div>
+            <div class="flex items-center text-[10vw]">:</div>
+            <div id="min" class="flip-card">
+                <div class="top">00</div>
+                <div class="bottom">00</div>
+            </div>
+            <div class="flex items-center text-[10vw]">:</div>
+            <div id="sec" class="flip-card">
+                <div class="top">00</div>
+                <div class="bottom">00</div>
+            </div>
+        </div>
+    </div>
 
-        const rootElement = document.getElementById('root');
-        const root = ReactDOM.createRoot(rootElement);
-        root.render(
-          React.createElement(App)
-        );
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+
+            document.querySelectorAll('#hour .top, #hour .bottom').forEach(el => el.textContent = h);
+            document.querySelectorAll('#min .top, #min .bottom').forEach(el => el.textContent = m);
+            document.querySelectorAll('#sec .top, #sec .bottom').forEach(el => el.textContent = s);
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
 </body>
 </html>
